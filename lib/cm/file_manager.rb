@@ -10,19 +10,19 @@ module Cm
       web_dav: Connectors::WebDavConnector
     }.freeze
 
-    mattr_accessor :options
-
     class << self
+      attr_accessor :options
 
       def read(file_path)
         connector.read(full_path(file_path))
       end
 
       def write(file_path, body)
-        full_path(file_path).tap do |path|
+        uniq_path = uniq_file_path(file_path)
+        full_path(uniq_path).tap do |path|
           connector.write(path, body)
         end
-        file_path
+        uniq_path
       end
 
       def delete(file_path)
@@ -30,13 +30,6 @@ module Cm
           connector.delete(path)
         end
         file_path
-      end
-
-      def mkdir(dir_path)
-        full_path(dir_path).tap do |path|
-          connector.mkdir(path)
-        end
-        dir_path
       end
 
       private
@@ -55,6 +48,13 @@ module Cm
 
       def full_path(entity)
         [base_path, entity].join('/').squeeze('/')
+      end
+
+      def uniq_file_path(file_path)
+        prefix = Time.now.to_i
+        filename = File.basename(file_path)
+        dirname  = File.dirname(file_path)
+        File.join(dirname, "#{prefix}.#{filename}")
       end
     end
   end

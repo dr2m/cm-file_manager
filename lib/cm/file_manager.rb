@@ -32,6 +32,11 @@ module Cm
         file_path
       end
 
+      def full_uri(file_path)
+        prefix = options[:url]
+        [prefix, full_path(file_path)].join('/').squeeze('/')
+      end
+
       private
 
       def connector

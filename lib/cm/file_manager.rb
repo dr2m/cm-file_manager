@@ -34,7 +34,10 @@ module Cm
 
       def full_uri(file_path)
         prefix = options[:url]
-        [prefix, full_path(file_path)].join('/').squeeze('/')
+        [prefix, full_path(file_path)].
+          compact.
+          join('/').
+          gsub(/[^:]\/\/+/, '/')
       end
 
       private

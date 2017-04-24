@@ -11,7 +11,7 @@ module Cm
 
         def read(file_path)
           path = URI.encode(file_path)
-          web_dav.get(path)
+          web_dav.get(path).force_encoding("UTF-8").encode("UTF-8")
         end
 
         def delete(file_path)

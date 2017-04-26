@@ -3,7 +3,7 @@ require 'test_helper'
 class Cm::FileManagerTest < Minitest::Test
   def setup
     @file_manager = Cm::FileManager
-    @path = '//foo/bar///baz////file.txt'
+    @path = '//foo/bar///baz////baz2/file.txt'
   end
 
   def options_for_local_fs
@@ -27,11 +27,15 @@ class Cm::FileManagerTest < Minitest::Test
 
   def test_full_uri_for_local_fs
     @file_manager.options = options_for_local_fs
-    assert_equal @file_manager.full_uri(@path), '/tmp/storage/foo/bar/baz/file.txt'
+
+    assert_equal '/tmp/storage/foo/bar/baz/baz2/file.txt',
+      @file_manager.full_uri(@path)
   end
 
   def test_full_uri_for_web_dav
     @file_manager.options = options_for_web_dav
-    assert_equal @file_manager.full_uri(@path), 'http://foo.bar-baz.r/campaign-management/tmp/foo/bar/baz/file.txt'
+
+    assert_equal 'http://foo.bar-baz.ru/campaign-management/tmp/foo/bar/baz/baz2/file.txt',
+      @file_manager.full_uri(@path)
   end
 end

@@ -37,7 +37,7 @@ module Cm
         [prefix, full_path(file_path)].
           compact.
           join('/').
-          gsub(/[^:]\/\/+/, '/')
+          gsub(/(?<!:)\/\/+/, '/')
       end
 
       private

@@ -32,6 +32,13 @@ module Cm
         file_path
       end
 
+      def upload(file_path, source_file_path)
+        full_path(file_path).tap do |path|
+          connector.upload(path, source_file_path)
+        end
+        file_path
+      end
+
       def full_uri(file_path)
         prefix = options[:url]
         [prefix, full_path(file_path)].

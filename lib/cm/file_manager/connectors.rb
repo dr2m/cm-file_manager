@@ -19,6 +19,10 @@ module Cm
         def delete(file_path)
           raise NotImplementedError
         end
+
+        def upload(file_path)
+          raise NotImplementedError
+        end
       end
     end
   end

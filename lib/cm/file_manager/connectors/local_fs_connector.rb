@@ -20,6 +20,14 @@ module Cm
           end
         end
 
+        def upload(file_path, source_file_path)
+          File.open(source_file_path, 'rb') do |input_stream|
+            File.open(file_path, 'wb') do |output_stream|
+              IO.copy_stream(input_stream, output_stream)
+            end
+          end
+        end
+
         private
 
         def mkdir(dir_path)

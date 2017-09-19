@@ -3,8 +3,7 @@ module Cm
     module Connectors
       class LocalFsConnector < BaseConnector
         def write(file_path, body)
-          dir_path = File.dirname(file_path)
-          mkdir(dir_path) unless Dir.exist?(dir_path)
+          ensure_directory_exists(file_path)
           File.write(file_path, body)
         end
 
@@ -22,6 +21,8 @@ module Cm
 
         def upload(file_path, source_file_path)
           File.open(source_file_path, 'rb') do |input_stream|
+            ensure_directory_exists(file_path)
+
             File.open(file_path, 'wb') do |output_stream|
               IO.copy_stream(input_stream, output_stream)
             end
@@ -30,8 +31,9 @@ module Cm
 
         private
 
-        def mkdir(dir_path)
-          FileUtils.mkdir_p(dir_path)
+        def ensure_directory_exists(file_path)
+          dir_path = File.dirname(file_path)
+          mkdir(dir_path) unless Dir.exist?(dir_path)
         end
       end
     end

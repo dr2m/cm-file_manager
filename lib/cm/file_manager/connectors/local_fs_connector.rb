@@ -33,7 +33,7 @@ module Cm
 
         def ensure_directory_exists(file_path)
           dir_path = File.dirname(file_path)
-          mkdir(dir_path) unless Dir.exist?(dir_path)
+          FileUtils.mkdir_p(dir_path) unless Dir.exist?(dir_path)
         end
       end
     end

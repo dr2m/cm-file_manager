@@ -76,7 +76,7 @@ module Cm
       end
 
       def get_random_sequence(length = UNIQ_FILE_PATH_RANDOM_SEQUENCE_LENGTH)
-        rand(10 ** length).to_s.ljust(length, '0')
+        rand(10 ** length).to_s.rjust(length, '0')
       end
     end
   end

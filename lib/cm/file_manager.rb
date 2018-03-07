@@ -10,6 +10,8 @@ module Cm
       web_dav: Connectors::WebDavConnector
     }.freeze
 
+    UNIQ_FILE_PATH_RANDOM_SEQUENCE_LENGTH = 3
+
     class << self
       attr_accessor :options
 
@@ -66,10 +68,15 @@ module Cm
       end
 
       def uniq_file_path(file_path)
-        prefix = Time.now.to_i
+        prefix = Time.now.to_f.to_s.sub('.', '') + get_random_sequence
+
         filename = File.basename(file_path)
         dirname  = File.dirname(file_path)
         File.join(dirname, "#{prefix}.#{filename}")
+      end
+
+      def get_random_sequence(length = UNIQ_FILE_PATH_RANDOM_SEQUENCE_LENGTH)
+        rand(10 ** length).to_s.ljust(length, '0')
       end
     end
   end
